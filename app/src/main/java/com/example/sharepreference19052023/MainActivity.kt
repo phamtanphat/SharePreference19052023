@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,11 +33,10 @@ class MainActivity : AppCompatActivity() {
         imgDelete = findViewById(R.id.image_view_delete)
 
         sharePreference = getSharedPreferences("app_share_preference", MODE_PRIVATE)
-        editor = sharePreference?.edit()
-
-        editor?.putString("email", "abc123")
-        editor?.putString("password", "11111")
-        editor?.apply()
+        sharePreference?.edit {
+            putString("email", "a")
+            putString("password", "a")
+        }
 
         btnLogin?.setOnClickListener {
             /**
