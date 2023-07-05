@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +29,26 @@ class MainActivity : AppCompatActivity() {
         tvOutputAccount = findViewById(R.id.text_view_output)
         imgDelete = findViewById(R.id.image_view_delete)
 
+        btnLogin?.setOnClickListener {
+            /**
+             * Email: abc123@gmail.com
+             * Password: 1111111111
+             */
+
+            val email = edtEmail?.text.toString()
+            val password = edtPassword?.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (email == "abc123@gmail.com" && password == "1111111111") {
+                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Tài khoản không chính xác", Toast.LENGTH_SHORT).show()
+            }
+        }
         // Yeu cau
         // 1 - Nếu đăng nhập thành công và có chọn vào check box thì lưu tài khoản
         // 2 - Khi mở lại app nếu có dữ liệu thì hiển thị cho phần input và
