@@ -1,5 +1,6 @@
 package com.example.sharepreference19052023
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +18,8 @@ class MainActivity : AppCompatActivity() {
     private var btnLogin: Button? = null
     private var tvOutputAccount: TextView? = null
     private var imgDelete: ImageView? = null
-
+    private var sharePreference: SharedPreferences? = null
+    private var editor: SharedPreferences.Editor? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,6 +31,13 @@ class MainActivity : AppCompatActivity() {
         tvOutputAccount = findViewById(R.id.text_view_output)
         imgDelete = findViewById(R.id.image_view_delete)
 
+        sharePreference = getSharedPreferences("app_share_preference", MODE_PRIVATE)
+        editor = sharePreference?.edit()
+
+        editor?.putString("email", "abc123")
+        editor?.putString("password", "11111")
+        editor?.apply()
+
         btnLogin?.setOnClickListener {
             /**
              * Email: abc123@gmail.com
@@ -37,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             val email = edtEmail?.text.toString()
             val password = edtPassword?.text.toString()
+            val isChecked = checkBoxSaveAccount?.isChecked ?: false
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show()
@@ -45,6 +55,9 @@ class MainActivity : AppCompatActivity() {
 
             if (email == "abc123@gmail.com" && password == "1111111111") {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
+                if (isChecked) {
+
+                }
             } else {
                 Toast.makeText(this, "Tài khoản không chính xác", Toast.LENGTH_SHORT).show()
             }
@@ -55,6 +68,5 @@ class MainActivity : AppCompatActivity() {
         // 3- Thực hiện xoá dữ liệu
         //    - Khi người dùng đăng nhập nhưng không chọn vào check box
         //    - Khi click icon delete của output
-
     }
 }
