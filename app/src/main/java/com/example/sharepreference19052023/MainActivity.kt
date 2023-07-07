@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private var tvOutputAccount: TextView? = null
     private var imgDelete: ImageView? = null
     private var sharePreference: SharedPreferences? = null
-    private var editor: SharedPreferences.Editor? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,10 +32,6 @@ class MainActivity : AppCompatActivity() {
         imgDelete = findViewById(R.id.image_view_delete)
 
         sharePreference = getSharedPreferences("app_share_preference", MODE_PRIVATE)
-        sharePreference?.edit {
-            putString("email", "a")
-            putString("password", "a")
-        }
 
         btnLogin?.setOnClickListener {
             /**
@@ -55,8 +50,16 @@ class MainActivity : AppCompatActivity() {
 
             if (email == "abc123@gmail.com" && password == "1111111111") {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
-                if (isChecked) {
-
+                sharePreference?.edit {
+                    if (isChecked) {
+                        putString("email", email)
+                        putString("password", password)
+                        putBoolean("isChecked", true)
+                    } else {
+                        remove("email")
+                        remove("password")
+                        remove("isChecked")
+                    }
                 }
             } else {
                 Toast.makeText(this, "Tài khoản không chính xác", Toast.LENGTH_SHORT).show()
@@ -64,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
         // Yeu cau
         // 1 - Nếu đăng nhập thành công và có chọn vào check box thì lưu tài khoản
-        // 2 - Khi mở lại app nếu có dữ liệu thì hiển thị cho phần input và
+        // 2 - Khi mở lại app nếu có dữ liệu thì hiển thị cho phần input và output
         // 3- Thực hiện xoá dữ liệu
         //    - Khi người dùng đăng nhập nhưng không chọn vào check box
         //    - Khi click icon delete của output
