@@ -32,6 +32,14 @@ class MainActivity : AppCompatActivity() {
         imgDelete = findViewById(R.id.image_view_delete)
 
         sharePreference = getSharedPreferences("app_share_preference", MODE_PRIVATE)
+        sharePreference?.let {
+            val emailPreference = it.getString("email", "")
+            val passwordPreference = it.getString("password", "")
+            val isCheckedPreference = it.getBoolean("isChecked", false)
+            edtEmail?.setText(emailPreference)
+            edtPassword?.setText(passwordPreference)
+            checkBoxSaveAccount?.isChecked = isCheckedPreference
+        }
 
         btnLogin?.setOnClickListener {
             /**
